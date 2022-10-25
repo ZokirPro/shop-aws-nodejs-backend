@@ -5,7 +5,7 @@ import { middyfy } from '@libs/lambda';
 
 export const getProductById: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   const { id } = event.pathParameters;
-  const product = productService.getProductById(id)
+  const product = await productService.getProductById(id)
   if (!product) {
     return errorResponse(`Product not found by id: ${id}`, 404)
   }
