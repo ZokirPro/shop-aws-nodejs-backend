@@ -14,7 +14,10 @@ export const successResponse = (response: Record<string, unknown>) => {
   return {
     statusCode: 200,
     headers: defaultHeaders,
-    body: JSON.stringify(response)
+    body: JSON.stringify({
+      statusCode: 200,
+      ...response
+    })
   }
 }
 
@@ -23,6 +26,7 @@ export const errorResponse = (message = "Internal Server Error", statusCode = 50
     statusCode,
     headers: defaultHeaders,
     body: JSON.stringify({
+      statusCode,
       message
     }),
   }
