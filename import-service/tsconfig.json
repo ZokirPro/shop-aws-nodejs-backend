@@ -19,8 +19,7 @@
     ".serverless/**/*",
     ".webpack/**/*",
     "_warmup/**/*",
-    ".vscode/**/*",
-    "**/*.test.ts"
+    ".vscode/**/*"
   ],
   "ts-node": {
     "require": ["tsconfig-paths/register"]

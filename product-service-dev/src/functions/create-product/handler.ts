@@ -16,7 +16,6 @@ export const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = 
       data: result
     })
   } catch (error) {
-
     return errorResponse(error)
   }
 }
