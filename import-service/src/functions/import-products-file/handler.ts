@@ -6,7 +6,7 @@ import { middyfy } from "@libs/lambda";
 import schema, { ImportProductSchema } from "./schema";
 import * as config from '../../../../config.json'
 
-export const ImportProductsFile: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+const ImportProductsFileHandler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   try {
     loggerService.debug("ImportProductsFile method invoked")
 
@@ -33,4 +33,4 @@ export const ImportProductsFile: ValidatedEventAPIGatewayProxyEvent<typeof schem
   }
 }
 
-export const main = middyfy(ImportProductsFile);
+export const importProductsFile = middyfy(ImportProductsFileHandler);

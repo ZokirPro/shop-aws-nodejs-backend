@@ -1,13 +1,1 @@
-import { handlerPath } from "@libs/handler-resolver";
-
-export default {
-  handler: `${handlerPath(__dirname)}/handler.main`,
-  events: [
-    {
-      http: {
-        path: "products/{id}",
-        method: "get"
-      }
-    }
-  ]
-}
+export * from './handler'
