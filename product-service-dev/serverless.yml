@@ -1,0 +1,149 @@
+service: product-service-dev
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: ${env:REGION, 'us-east-1'}
+  apiGateway:
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: ${env:AWS_NODEJS_CONNECTION_REUSE_ENABLED,'1'}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:DeleteItem
+      Resource:
+        - arn:aws:dynamodb:us-east-1:178256066802:table/products
+        - arn:aws:dynamodb:us-east-1:178256066802:table/stocks
+    - Effect: Allow
+      Action:
+        - sqs:*
+      Resource: arn:aws:sqs:us-east-1:178256066802:catalogItemsQueue
+    - Effect: Allow
+      Action:
+        - sns:*
+      Resource: arn:aws:sns:us-east-1:178256066802:productCreateTopic
+
+functions:
+  getProductsList:
+    handler: src/functions/index.getProductsList
+    events:
+      - http:
+          path: products
+          method: get
+          cors: true
+  getProductById:
+    handler: src/functions/index.getProductById
+    events:
+      - http:
+          path: products/{id}
+          method: get
+          cors: true
+  createProduct:
+    handler: src/functions/index.createProduct
+    events:
+      - http:
+          path: products
+          method: post
+          cors: true
+  catalogBatchProcess:
+    handler: src/functions/index.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 5
+          arn: arn:aws:sqs:us-east-1:178256066802:catalogItemsQueue
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline-sqs
+  - serverless-offline
+
+resources:
+  Resources:
+    # productsListTable:
+    #   Type: AWS::DynamoDB::Table
+    #   Properties:
+    #     TableName: products
+    #     AttributeDefinitions:
+    #       - AttributeName: id
+    #         AttributeType: "S"
+    #     KeySchema:
+    #       - AttributeName: id
+    #         KeyType: HASH
+    #     ProvisionedThroughput:
+    #       ReadCapacityUnits: 1
+    #       WriteCapacityUnits: 1
+    # stocks:
+    #   Type: AWS::DynamoDB::Table
+    #   Properties:
+    #     TableName: stocks
+    #     AttributeDefinitions:
+    #       - AttributeName: id
+    #         AttributeType: S
+    #     KeySchema:
+    #       - AttributeName: id
+    #         KeyType: HASH
+    #     ProvisionedThroughput:
+    #       ReadCapacityUnits: 1
+    #       WriteCapacityUnits: 1
+    CatalogItemsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: catalogItemsQueue
+    ProductCreatedTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: productCreateTopic
+        Subscription:
+          - Endpoint: zuckerberg3771@gmail.com
+            Protocol: email
+    ProductCreatedTopicSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: Zokirjon_Gofurboyev@epam.com
+        Protocol: email
+        TopicArn:
+          Ref: ProductCreatedTopic
+        FilterPolicy:
+          total:
+            - numeric:
+                - "="
+                - 5
+    ProductCreatedTopicSubscription2:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: zuckerberg3771@gmail.com
+        Protocol: email
+        TopicArn:
+          Ref: ProductCreatedTopic
+        FilterPolicy:
+          total:
+            - anything-but:
+                - 5
+
+custom:
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    exclude: aws-sdk
+    target: node14
+    platform: node
+    concurrency: 10
+  serverless-offline:
+    allowCache: true
+    noTimeOut: true
+    httpPort: 3000
+    lambdaPort: 3002
+  useDotEnv: true
+
+package:
+  individually: true

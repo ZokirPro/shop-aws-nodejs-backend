@@ -3,7 +3,7 @@ import { errorResponse, successResponse, ValidatedEventAPIGatewayProxyEvent } fr
 import schema from "./schema";
 import { middyfy } from '@libs/lambda';
 
-export const getProductById: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+const getProductByIdHandler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   const { id } = event.pathParameters;
   const product = await productService.getProductById(id)
   if (!product) {
@@ -16,4 +16,4 @@ export const getProductById: ValidatedEventAPIGatewayProxyEvent<typeof schema> =
   })
 }
 
-export const main = middyfy(getProductById);
+export const getProductById = middyfy(getProductByIdHandler);

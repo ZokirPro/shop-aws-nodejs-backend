@@ -1,2 +1,2 @@
-export { default as ImportProductsFile } from './import-products-file'
-export { default as ImportParserFile } from './import-file-parser'
+export * from './import-products-file'
+export * from './import-file-parser'

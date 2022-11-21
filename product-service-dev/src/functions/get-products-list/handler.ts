@@ -3,7 +3,7 @@ import { middyfy } from "@libs/lambda";
 import { productService } from "src/services";
 import schema from "./schema";
 
-export const getProductsList: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async () => {
+const getProductsListHandler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async () => {
   try {
     const products = await productService.getProducts()
 
@@ -15,4 +15,4 @@ export const getProductsList: ValidatedEventAPIGatewayProxyEvent<typeof schema> 
   }
 }
 
-export const main = middyfy(getProductsList);
+export const getProductsList = middyfy(getProductsListHandler);

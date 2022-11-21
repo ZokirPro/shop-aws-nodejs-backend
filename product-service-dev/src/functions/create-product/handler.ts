@@ -4,7 +4,7 @@ import schema, { CreateProductSchema } from "./schema";
 import { Product, Stock } from 'src/models';
 import { middyfy } from '@libs/lambda';
 
-export const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+const createProductHandler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   try {
     loggerService.debug(`createProduct function invoked. Options: ${JSON.stringify(event.body)}`)
     const { title, description, count, price } = event.body
@@ -20,4 +20,4 @@ export const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = 
   }
 }
 
-export const main = middyfy(createProduct);
+export const createProduct = middyfy(createProductHandler);

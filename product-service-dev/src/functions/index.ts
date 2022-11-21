@@ -1,3 +1,4 @@
-export { default as getProductsList } from './get-products-list';
-export { default as getProductsById } from './get-product-by-id';
-export { default as createProduct } from './create-product'
+export * from './get-products-list'
+export * from './get-product-by-id'
+export * from './create-product'
+export * from './catalog-batch-process'
