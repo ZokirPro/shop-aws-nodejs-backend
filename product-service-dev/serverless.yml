@@ -66,68 +66,68 @@ plugins:
   - serverless-offline-sqs
   - serverless-offline
 
-resources:
-  Resources:
-    # productsListTable:
-    #   Type: AWS::DynamoDB::Table
-    #   Properties:
-    #     TableName: products
-    #     AttributeDefinitions:
-    #       - AttributeName: id
-    #         AttributeType: "S"
-    #     KeySchema:
-    #       - AttributeName: id
-    #         KeyType: HASH
-    #     ProvisionedThroughput:
-    #       ReadCapacityUnits: 1
-    #       WriteCapacityUnits: 1
-    # stocks:
-    #   Type: AWS::DynamoDB::Table
-    #   Properties:
-    #     TableName: stocks
-    #     AttributeDefinitions:
-    #       - AttributeName: id
-    #         AttributeType: S
-    #     KeySchema:
-    #       - AttributeName: id
-    #         KeyType: HASH
-    #     ProvisionedThroughput:
-    #       ReadCapacityUnits: 1
-    #       WriteCapacityUnits: 1
-    CatalogItemsQueue:
-      Type: AWS::SQS::Queue
-      Properties:
-        QueueName: catalogItemsQueue
-    ProductCreatedTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: productCreateTopic
-        Subscription:
-          - Endpoint: zuckerberg3771@gmail.com
-            Protocol: email
-    ProductCreatedTopicSubscription:
-      Type: AWS::SNS::Subscription
-      Properties:
-        Endpoint: Zokirjon_Gofurboyev@epam.com
-        Protocol: email
-        TopicArn:
-          Ref: ProductCreatedTopic
-        FilterPolicy:
-          total:
-            - numeric:
-                - "="
-                - 5
-    ProductCreatedTopicSubscription2:
-      Type: AWS::SNS::Subscription
-      Properties:
-        Endpoint: zuckerberg3771@gmail.com
-        Protocol: email
-        TopicArn:
-          Ref: ProductCreatedTopic
-        FilterPolicy:
-          total:
-            - anything-but:
-                - 5
+# resources:
+#   Resources:
+# productsListTable:
+#   Type: AWS::DynamoDB::Table
+#   Properties:
+#     TableName: products
+#     AttributeDefinitions:
+#       - AttributeName: id
+#         AttributeType: "S"
+#     KeySchema:
+#       - AttributeName: id
+#         KeyType: HASH
+#     ProvisionedThroughput:
+#       ReadCapacityUnits: 1
+#       WriteCapacityUnits: 1
+# stocks:
+#   Type: AWS::DynamoDB::Table
+#   Properties:
+#     TableName: stocks
+#     AttributeDefinitions:
+#       - AttributeName: id
+#         AttributeType: S
+#     KeySchema:
+#       - AttributeName: id
+#         KeyType: HASH
+#     ProvisionedThroughput:
+#       ReadCapacityUnits: 1
+#       WriteCapacityUnits: 1
+# CatalogItemsQueue:
+#   Type: AWS::SQS::Queue
+#   Properties:
+#     QueueName: catalogItemsQueue
+# ProductCreatedTopic:
+#   Type: AWS::SNS::Topic
+#   Properties:
+#     TopicName: productCreateTopic
+#     Subscription:
+#       - Endpoint: zuckerberg3771@gmail.com
+#         Protocol: email
+# ProductCreatedTopicSubscription:
+#   Type: AWS::SNS::Subscription
+#   Properties:
+#     Endpoint: Zokirjon_Gofurboyev@epam.com
+#     Protocol: email
+#     TopicArn:
+#       Ref: ProductCreatedTopic
+#     FilterPolicy:
+#       total:
+#         - numeric:
+#             - "="
+#             - 5
+# ProductCreatedTopicSubscription2:
+#   Type: AWS::SNS::Subscription
+#   Properties:
+#     Endpoint: zuckerberg3771@gmail.com
+#     Protocol: email
+#     TopicArn:
+#       Ref: ProductCreatedTopic
+#     FilterPolicy:
+#       total:
+#         - anything-but:
+#             - 5
 
 custom:
   esbuild:
